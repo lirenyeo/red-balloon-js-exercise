@@ -33,15 +33,36 @@ function createBalloon(balloon){
 // The comments alignments also simulate how they are inside of the functions and loops
 // All the logic will live inside the event listener function for clicking on playBtn
 
+
 // Listen to the event click on the button
+playBtn.addEventListener('click', () => {
   // When button is clicked, start playing audio and remove the button from the balloon container
+  balloonsAudio.play()
+  playBtn.style.display = 'none'
   // Loop all the balloons
+  balloons.forEach(balloon => {
     // Create new balloon with createBalloon function
+    const newBalloon = createBalloon(balloon)
     // append to balloon-container
+    balloonContainer.appendChild(newBalloon)
+  })
+
   // query all the .balloon-box in the HTML
-  // Add event listener for click on each box and also take the index
-    // When the box is clicked, play the pop sound
-    // change the balloons array at the index clicked from '-' to ' '
-    // remove the clicked box's balloon but not the box
-    // Check if the balloons array still includes any '-'
-      // if no more exists then pause the audio and alert('congrats')
+  document.querySelectorAll('.balloon-box').forEach((box, idx) => {
+    // Add event listener for click on each box and also take the index
+    box.addEventListener('click', () => {
+      console.log(box, idx)
+      // When the box is clicked, play the pop sound
+      popAudio.play()
+      // change the balloons array at the index clicked from '-' to ' '
+      balloons[idx] = ''
+      // remove the clicked box's balloon but not the box
+      box.innerHTML = ''
+      // Check if the balloons array still includes any '-'
+      if (!balloons.includes('-')) {
+        // if no more exists then pause the audio and alert('congrats')
+        alert('Congrats!')
+      }
+    })
+  })
+})
